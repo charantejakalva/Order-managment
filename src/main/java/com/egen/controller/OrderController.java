@@ -2,14 +2,13 @@ package com.egen.controller;
 
 import com.egen.model.OrderItem;
 import com.egen.service.OrderService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 //import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class OrderController {
@@ -29,11 +28,12 @@ public class OrderController {
         return ResponseEntity.ok(service.getAllOrders());
     }
 
-//    public ResponseEntity<List<Order>> getOrderById(String id){
-//        //TODO
-//        return null;
-//    }
-//
+    @GetMapping("/order/{id}")
+    public ResponseEntity<Optional<OrderItem>> getOrderById(@PathVariable String id){
+        //TODO
+        return   ResponseEntity.ok(service.getOrderById(id));
+    }
+
 //    public ResponseEntity<List<Order>> getAllOrdersWithInInterval(ZonedDateTime startTime, ZonedDateTime endTime){
 //        //TODO
 //        return null;
@@ -43,16 +43,22 @@ public class OrderController {
 //        //TODO
 //        return null;
 //    }
-    @PostMapping("/place")
+    @PostMapping("/save")
     public ResponseEntity<OrderItem> placeOrder(@RequestBody OrderItem orderItem){
         return ResponseEntity.ok(service.placeOrder(orderItem));
     }
 
-//    public ResponseEntity<Order> cancelOrder(Order order){
-//        return null;
-//    }
-//
-//    public ResponseEntity<Order> updateOrder(Order order){
-//        return null;
-//    }
+    @PutMapping("/cancel")
+    public ResponseEntity<OrderItem> cancelOrder(OrderItem order){
+        return ResponseEntity.ok(service.cancelOrder(order));
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<OrderItem> updateOrder(OrderItem order){
+        return ResponseEntity.ok(service.updateOrder(order));
+    }
+    @PostMapping("/random/{num}")
+    public ResponseEntity<String> createRandomOrders(@PathVariable int num){
+        return new ResponseEntity<>(service.createRandomOrders(num), HttpStatus.CREATED);
+    }
 }
