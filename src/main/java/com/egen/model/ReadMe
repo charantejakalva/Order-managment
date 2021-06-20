@@ -1,4 +1,4 @@
-1. Understand the following legacy order schema:
+1. Understand the following legacy orderItem schema:
 
 order_id
 order_status
@@ -27,14 +27,14 @@ order_shipping_zip
 	a. follows the concepts of Database Normalization. You remember that from your
 	DBMS class. Sorry to take you back to those haunting memories. K
 
-	b. provides an ability to have more than 1 item per order. What order schema in 2020
-	limits to 1 item per order? J
+	b. provides an ability to have more than 1 item per orderItem. What orderItem schema in 2020
+	limits to 1 item per orderItem? J
 
-	c. provides an ability to pay the order by accepting more than one payment
-	transactions. For example, pay for an order amount using two credit cards (split
+	c. provides an ability to pay the orderItem by accepting more than one payment
+	transactions. For example, pay for an orderItem amount using two credit cards (split
 	the total). Make some assumptions about the billing address/es.
 
-	d. adds other metadata to the order: createdDate, modifiedDate. What else?
+	d. adds other metadata to the orderItem: createdDate, modifiedDate. What else?
 
 	e. supports more shipping/delivery methods: In-store pickup, curbside delivery,
 	ship to home, 3rd party delivery etc.
