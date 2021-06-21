@@ -2,6 +2,7 @@ package com.egen.model;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.time.ZonedDateTime;
 import java.util.Set;
 import java.util.UUID;
 

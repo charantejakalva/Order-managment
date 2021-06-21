@@ -5,8 +5,6 @@ import com.egen.exception.OrderNotFoundException;
 import com.egen.model.OrderItem;
 import com.egen.model.OrderStatus;
 import com.egen.repository.OrderRepository;
-import org.hibernate.criterion.Order;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import uk.co.jemos.podam.api.AttributeMetadata;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -16,9 +14,9 @@ import uk.co.jemos.podam.typeManufacturers.IntTypeManufacturerImpl;
 import uk.co.jemos.podam.typeManufacturers.TypeManufacturer;
 
 //import java.time.ZonedDateTime;
-import javax.transaction.Transactional;
-import java.util.List;
-import java.util.Optional;
+import java.sql.Timestamp;
+import java.time.ZonedDateTime;
+import java.util.*;
 
 @Service
 public class OrderServiceImplement implements OrderService{
@@ -43,15 +41,34 @@ public class OrderServiceImplement implements OrderService{
         }
     }
 
-//    @Override
-//    public  List<Order> getAllOrdersWithInInterval(ZonedDateTime startTime, ZonedDateTime endTime) {
+    public  List<OrderItem> getAllOrdersWithInInterval(Timestamp startTime, Timestamp endTime) {
+
 //        return repository.getAllOrdersWithInInterval(startTime,endTime);
-//    }
-//
-//    @Override
-//    public  List<Order> top10OrdersWithHighestDollarAmountInZip(String zip) {
-//        return null;
-//    }
+        return repository.getAllOrdersWithInInterval(startTime,endTime);
+    }
+
+
+    public  List<OrderItem> top10OrdersWithHighestDollarAmountInZip(String zip) {
+        List<OrderItem>  orders = (List<OrderItem>) repository.findAll();
+        List<OrderItem> zipOrders = new ArrayList<>();
+
+        for(OrderItem order:orders){
+            if(order.getShippingAddress().getZipcode().equalsIgnoreCase(zip)){
+                zipOrders.add(order);
+            }
+        }
+        Collections.sort(zipOrders, new Comparator<OrderItem>() {
+            @Override
+            public int compare(OrderItem o1, OrderItem o2) {
+                return Double.compare(o1.getTotalAmount(),o2.getTotalAmount());
+            }
+        });
+        List<OrderItem> topOrders = new ArrayList<>();
+        for(int i =0; i < 10; i++){
+            topOrders.add(zipOrders.get(i));
+        }
+        return topOrders;
+    }
 
     public OrderItem placeOrder(OrderItem orderItem) {
         return repository.save(orderItem);
