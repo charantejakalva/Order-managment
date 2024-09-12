@@ -1,6 +1,8 @@
 package com.egen.controller;
 
 import com.egen.model.Order;
+import com.egen.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,14 +13,14 @@ import java.util.List;
 
 @RestController
 public class OrderController {
-    /**
-     * implement the following endpoints
-     */
+
+    @Autowired
+    private OrderService service;
 
     @GetMapping("order")
     public ResponseEntity<List<Order>> getAllOrders(){
         //TODO
-        return ResponseEntity.ok(Collections.singletonList(new Order("id")));
+        return service.getAllOrders();
     }
 
     public ResponseEntity<List<Order>> getOrderById(String id){
